@@ -1,6 +1,10 @@
 plugins {
     id 'java-gradle-plugin'
+    id 'maven-publish'
 }
+
+group = 'net.arnx'
+version = '0.1.0'
 
 repositories {
     jcenter()
@@ -38,4 +42,33 @@ task functionalTest(type: Test) {
 check {
     // Run the functional tests as part of `check`
     dependsOn(tasks.functionalTest)
+}
+
+task sourceJar(type : Jar) {
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type : Jar, dependsOn : javadoc) {
+    from javadoc.destinationDir
+}
+
+publishing {
+    publications {
+        sample(MavenPublication) {
+            from components.java
+            artifact sourceJar {
+                classifier = 'sources'
+                extension  = 'jar'
+            }
+            artifact javadocJar {
+                classifier = 'javadoc'
+                extension  = 'jar'
+            }
+        }
+    }
+    repositories {
+        maven {
+            url 'file:../maven_repo'
+        }
+    }
 }
