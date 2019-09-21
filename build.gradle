@@ -1,23 +1,25 @@
 plugins {
     id 'java-gradle-plugin'
     id 'maven-publish'
+    id 'signing'
 }
 
 group = 'net.arnx'
-version = '0.1.0'
+version = '0.1.1'
 
 repositories {
     jcenter()
 }
 
 dependencies {
+    testImplementation gradleTestKit()
     testImplementation 'junit:junit:4.12'
 }
 
 gradlePlugin {
     // Define the plugin
     plugins {
-        fileconv {
+        'fileconv-gradle-plugin' {
             id = 'net.arnx.fileconv'
             implementationClass = 'net.arnx.fileconv.gradle.FileconvGradlePlugin'
         }
@@ -44,31 +46,54 @@ check {
     dependsOn(tasks.functionalTest)
 }
 
+compileJava {
+	options.encoding = 'UTF-8'
+}
+
+compileTestJava {
+	options.encoding = 'UTF-8'
+}
+
+javadoc {
+	options {
+		links(JavaVersion.current().isJava11Compatible() ? 
+			'https://docs.oracle.com/en/java/javase/11/docs/api' : 
+			'https://docs.oracle.com/javase/8/docs/api/')
+		locale = 'en_US'
+		encoding = 'UTF-8'
+		docEncoding = 'UTF-8'
+		charSet = 'UTF-8'
+		author = true
+	}
+	options.addBooleanOption('html5', 
+		JavaVersion.current().isJava9Compatible())
+}
+
 task sourceJar(type : Jar) {
-    from sourceSets.main.allJava
+    classifier 'sources'
+    from sourceSets.main.allSource
 }
 
 task javadocJar(type : Jar, dependsOn : javadoc) {
+    classifier = 'javadoc'
     from javadoc.destinationDir
 }
 
 publishing {
     publications {
-        sample(MavenPublication) {
+        mavenJava(MavenPublication) {
             from components.java
-            artifact sourceJar {
-                classifier = 'sources'
-                extension  = 'jar'
-            }
-            artifact javadocJar {
-                classifier = 'javadoc'
-                extension  = 'jar'
-            }
+            artifact sourceJar
+            artifact javadocJar
         }
     }
     repositories {
         maven {
-            url 'file:../maven_repo'
+            url 'file:../maven-repo'
         }
     }
+}
+
+signing {
+	sign publishing.publications.mavenJava
 }
