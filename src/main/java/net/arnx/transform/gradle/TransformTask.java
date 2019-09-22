@@ -6,10 +6,8 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BiPredicate;
 
 import org.gradle.api.InvalidUserDataException;
-import org.gradle.api.file.FileCopyDetails;
 import org.gradle.api.file.FileTreeElement;
 import org.gradle.api.file.FileVisitDetails;
 import org.gradle.api.file.FileVisitor;
@@ -28,10 +26,12 @@ import org.gradle.api.tasks.util.PatternFilterable;
 import org.gradle.api.tasks.util.PatternSet;
 import org.gradle.util.GFileUtils;
 
-public class TransformTask extends Sync {
-    private BiPredicate<FileCopyDetails, File> processAction;
+import groovy.lang.Closure;
 
-    public void process(BiPredicate<FileCopyDetails, File> processAction) {
+public class TransformTask extends Sync {
+    private Closure<?> processAction;
+
+    public void process(Closure<?> processAction) {
         this.processAction = processAction;
     }
 
@@ -56,14 +56,14 @@ public class TransformTask extends Sync {
         private final PatternSet preserveSet;
         private final Spec<FileTreeElement> preserveSpec;
         private final DirectoryFileTreeFactory directoryFileTreeFactory;
-        private final BiPredicate<FileCopyDetails, File> processAction;
+        private final Closure<?> processAction;
     
         public TransformAction(
             File baseDestDir,
             FileResolver resolver,
             PatternFilterable patternFilterable,
             DirectoryFileTreeFactory directoryFileTreeFactory,
-            BiPredicate<FileCopyDetails, File> processAction
+            Closure<?> processAction
         ) {
             this.baseDestDir = baseDestDir;
             this.resolver = resolver;
@@ -90,7 +90,8 @@ public class TransformTask extends Sync {
                     File target = resolver.resolve(details.getRelativePath().getPathString());
                     boolean processed;
                     if (processAction != null) {
-                        processed = processAction.test(details, target);
+                        Object result = processAction.call(details, target);
+                        processed = !Boolean.FALSE.equals(result);
                     } else {
                         processed = details.copyTo(target);
                     }
