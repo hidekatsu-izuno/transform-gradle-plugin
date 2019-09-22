@@ -31,7 +31,7 @@ public class TransformGradlePluginFunctionalTest {
         GradleRunner runner = GradleRunner.create();
         runner.forwardOutput();
         runner.withPluginClasspath();
-        runner.withArguments("fileconv");
+        runner.withArguments("transform");
         runner.withProjectDir(projectDir);
         BuildResult result = runner.build();
 
