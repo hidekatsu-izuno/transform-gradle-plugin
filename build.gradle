@@ -6,6 +6,8 @@ plugins {
 
 group = 'net.arnx'
 version = '0.1.1'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 repositories {
     jcenter()
@@ -19,9 +21,9 @@ dependencies {
 gradlePlugin {
     // Define the plugin
     plugins {
-        'fileconv-gradle-plugin' {
-            id = 'net.arnx.fileconv'
-            implementationClass = 'net.arnx.fileconv.gradle.FileconvGradlePlugin'
+        'transform-gradle-plugin' {
+            id = 'net.arnx.transform'
+            implementationClass = 'net.arnx.transform.gradle.TransformGradlePlugin'
         }
     }
 }
@@ -81,7 +83,7 @@ task javadocJar(type : Jar, dependsOn : javadoc) {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        maven(MavenPublication) {
             from components.java
             artifact sourceJar
             artifact javadocJar
@@ -95,5 +97,5 @@ publishing {
 }
 
 signing {
-	sign publishing.publications.mavenJava
+	sign publishing.publications.maven
 }

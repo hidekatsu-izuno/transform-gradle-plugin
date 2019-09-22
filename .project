@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>fileconv-gradle-plugin</name>
+	<name>transform-gradle-plugin</name>
 	<comment>Project fileconv-gradle-plugin created by Buildship.</comment>
 	<projects>
 	</projects>
