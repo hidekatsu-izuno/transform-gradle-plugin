@@ -4,10 +4,12 @@ import org.gradle.api.tasks.Sync;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.gradle.api.InvalidUserDataException;
+import org.gradle.api.file.FileCopyDetails;
 import org.gradle.api.file.FileTreeElement;
 import org.gradle.api.file.FileVisitDetails;
 import org.gradle.api.file.FileVisitor;
@@ -27,6 +29,7 @@ import org.gradle.api.tasks.util.PatternSet;
 import org.gradle.util.GFileUtils;
 
 import groovy.lang.Closure;
+import net.arnx.transform.gradle.filecopydetails.ExcelFileCopyDetails;
 
 public class TransformTask extends Sync {
     private Closure<?> processAction;
@@ -87,10 +90,19 @@ public class TransformTask extends Sync {
                 public void processFile(FileCopyDetailsInternal details) {
                     visited.add(details.getRelativePath());
 
+                    String name = details.getName().toLowerCase(Locale.ENGLISH);
+                    FileCopyDetails detailsEx;
+                    if (name.endsWith(".xlsx") || name.endsWith(".xls")) {
+                        detailsEx = new ExcelFileCopyDetails(details);
+                    } else {
+                        detailsEx = details;
+                    }
+
                     File target = resolver.resolve(details.getRelativePath().getPathString());
+
                     boolean processed;
                     if (processAction != null) {
-                        Object result = processAction.call(details, target);
+                        Object result = processAction.call(detailsEx, target);
                         processed = !Boolean.FALSE.equals(result);
                     } else {
                         processed = details.copyTo(target);
