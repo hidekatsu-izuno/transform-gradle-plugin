@@ -30,6 +30,7 @@ import org.gradle.util.GFileUtils;
 
 import groovy.lang.Closure;
 import net.arnx.transform.gradle.filecopydetails.ExcelFileCopyDetails;
+import net.arnx.transform.gradle.filecopydetails.XmlFileCopyDetails;
 
 public class TransformTask extends Sync {
     private Closure<?> processAction;
@@ -90,15 +91,17 @@ public class TransformTask extends Sync {
                 public void processFile(FileCopyDetailsInternal details) {
                     visited.add(details.getRelativePath());
 
+                    File target = resolver.resolve(details.getRelativePath().getPathString());
+
                     String name = details.getName().toLowerCase(Locale.ENGLISH);
                     FileCopyDetails detailsEx;
                     if (name.endsWith(".xlsx") || name.endsWith(".xls")) {
                         detailsEx = new ExcelFileCopyDetails(details);
+                    } else if (name.endsWith(".xml") || name.endsWith(".svg")) {
+                        detailsEx = new XmlFileCopyDetails(details);
                     } else {
                         detailsEx = details;
                     }
-
-                    File target = resolver.resolve(details.getRelativePath().getPathString());
 
                     boolean processed;
                     if (processAction != null) {
