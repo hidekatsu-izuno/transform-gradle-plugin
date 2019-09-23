@@ -1,24 +1,60 @@
-package net.arnx.transform.gradle.filecopydetails;
+package net.arnx.transform.gradle;
 
 import java.io.File;
 import java.io.FilterReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.gradle.api.Transformer;
+import org.gradle.api.UncheckedIOException;
 import org.gradle.api.file.ContentFilterable;
 import org.gradle.api.file.DuplicatesStrategy;
 import org.gradle.api.file.FileCopyDetails;
 import org.gradle.api.file.RelativePath;
+import org.xml.sax.SAXException;
 
 import groovy.lang.Closure;
+import groovy.util.Node;
+import groovy.util.XmlParser;
+import net.arnx.transform.excel.Workbook;
 
-public abstract class AbstractFileCopyDetails implements FileCopyDetails {
+public class TransformFileCopyDetails implements FileCopyDetails {
     private FileCopyDetails parent;
 
-    public AbstractFileCopyDetails(FileCopyDetails parent) {
+    private Workbook workbook;
+    private Node node;
+
+    public TransformFileCopyDetails(FileCopyDetails parent) {
         this.parent = parent;
+    }
+
+    public Workbook toExcel() {
+        if (workbook == null) {
+            try {
+                workbook = new Workbook(WorkbookFactory.create(getFile()));
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
+        return workbook;
+    }
+
+    public Node toXml() throws SAXException {
+        if (node == null) {
+            try {
+                node = new XmlParser().parse(getFile());
+            } catch (ParserConfigurationException e) {
+                throw new IllegalStateException(e);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }                
+        }
+        return node;
     }
 
     @Override

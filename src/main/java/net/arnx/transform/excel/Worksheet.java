@@ -13,6 +13,14 @@ public class Worksheet {
         this.sheet = sheet;
     }
 
+    public int getFirstRowIndex() {
+        return sheet.getFirstRowNum();
+    }
+
+    public int getLastRowIndex() {
+        return sheet.getLastRowNum();
+    }
+
     public Cell getCell(String ref) {
         CellReference cr = new CellReference(ref);
         if (cr.getSheetName() != null) {
