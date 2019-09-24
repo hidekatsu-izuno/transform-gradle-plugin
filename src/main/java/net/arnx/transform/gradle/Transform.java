@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.gradle.api.InvalidUserDataException;
+import org.gradle.api.file.CopySpec;
 import org.gradle.api.file.FileTreeElement;
 import org.gradle.api.file.FileVisitDetails;
 import org.gradle.api.file.FileVisitor;
@@ -24,11 +25,12 @@ import org.gradle.api.tasks.WorkResult;
 import org.gradle.api.tasks.WorkResults;
 import org.gradle.api.tasks.util.PatternFilterable;
 import org.gradle.api.tasks.util.PatternSet;
+import org.gradle.util.ClosureBackedAction;
 import org.gradle.util.GFileUtils;
 
 import groovy.lang.Closure;
 
-public class TransformTask extends Sync {
+public class Transform extends Sync {
     private Closure<?> processAction;
 
     public void process(Closure<?> processAction) {

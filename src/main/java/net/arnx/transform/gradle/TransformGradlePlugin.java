@@ -9,6 +9,6 @@ import org.gradle.api.Plugin;
 public class TransformGradlePlugin implements Plugin<Project> {
     public void apply(Project project) {
         project.getTasks()
-            .register("transform", TransformTask.class);
+            .register("transform", Transform.class);
     }
 }
