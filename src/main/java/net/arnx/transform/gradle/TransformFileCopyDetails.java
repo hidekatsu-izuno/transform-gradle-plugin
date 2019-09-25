@@ -16,6 +16,7 @@ import org.gradle.api.file.ContentFilterable;
 import org.gradle.api.file.DuplicatesStrategy;
 import org.gradle.api.file.FileCopyDetails;
 import org.gradle.api.file.RelativePath;
+import org.gradle.api.internal.file.FileResolver;
 import org.xml.sax.SAXException;
 
 import groovy.lang.Closure;
@@ -25,12 +26,14 @@ import net.arnx.transform.excel.Workbook;
 
 public class TransformFileCopyDetails implements FileCopyDetails {
     private FileCopyDetails parent;
+    private FileResolver resolver;
 
     private Workbook workbook;
     private Node node;
 
-    public TransformFileCopyDetails(FileCopyDetails parent) {
+    public TransformFileCopyDetails(FileCopyDetails parent, FileResolver resolver) {
         this.parent = parent;
+        this.resolver = resolver;
     }
 
     public Workbook toExcel() {
@@ -69,7 +72,7 @@ public class TransformFileCopyDetails implements FileCopyDetails {
 
     @Override
     public File getFile() {
-        return parent.getFile();
+        return resolver.resolve(parent.getRelativePath().getPathString());
     }
 
     @Override
@@ -161,6 +164,10 @@ public class TransformFileCopyDetails implements FileCopyDetails {
     @Override
     public String getSourcePath() {
         return parent.getSourcePath();
+    }
+
+    public File getSourceFile() {
+        return resolver.resolve(parent.getRelativeSourcePath().getPathString());
     }
 
     @Override
