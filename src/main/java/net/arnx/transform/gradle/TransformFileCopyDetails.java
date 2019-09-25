@@ -39,7 +39,7 @@ public class TransformFileCopyDetails implements FileCopyDetails {
     public Workbook toExcel() {
         if (workbook == null) {
             try {
-                workbook = new Workbook(WorkbookFactory.create(getFile()));
+                workbook = new Workbook(WorkbookFactory.create(getSourceFile()));
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
@@ -50,7 +50,7 @@ public class TransformFileCopyDetails implements FileCopyDetails {
     public Node toXml() throws SAXException {
         if (node == null) {
             try {
-                node = new XmlParser().parse(getFile());
+                node = new XmlParser().parse(getSourceFile());
             } catch (ParserConfigurationException e) {
                 throw new IllegalStateException(e);
             } catch (IOException e) {
@@ -167,7 +167,7 @@ public class TransformFileCopyDetails implements FileCopyDetails {
     }
 
     public File getSourceFile() {
-        return resolver.resolve(parent.getRelativeSourcePath().getPathString());
+        return parent.getFile();
     }
 
     @Override
