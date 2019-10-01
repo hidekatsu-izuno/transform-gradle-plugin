@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'net.arnx'
-version = '0.1.2'
+version = '0.1.0'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
@@ -21,11 +21,10 @@ dependencies {
 }
 
 gradlePlugin {
-    // Define the plugin
     plugins {
-        'transform-gradle-plugin' {
-            id = 'net.arnx.transform'
-            implementationClass = 'net.arnx.transform.gradle.TransformGradlePlugin'
+        transformSync {
+            id = 'net.arnx.transform-sync'
+            implementationClass = 'net.arnx.gradle.plugins.TransformSyncPlugin'
         }
     }
 }

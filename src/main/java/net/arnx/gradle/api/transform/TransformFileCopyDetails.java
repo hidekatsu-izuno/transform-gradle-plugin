@@ -1,4 +1,4 @@
-package net.arnx.transform.gradle;
+package net.arnx.gradle.api.transform;
 
 import java.io.File;
 import java.io.FilterReader;
@@ -22,7 +22,7 @@ import org.xml.sax.SAXException;
 import groovy.lang.Closure;
 import groovy.util.Node;
 import groovy.util.XmlParser;
-import net.arnx.transform.excel.Workbook;
+import net.arnx.gradle.api.excel.Workbook;
 
 public class TransformFileCopyDetails implements FileCopyDetails {
     private FileCopyDetails parent;

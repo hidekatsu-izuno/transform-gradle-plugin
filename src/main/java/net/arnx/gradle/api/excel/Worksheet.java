@@ -1,4 +1,4 @@
-package net.arnx.transform.excel;
+package net.arnx.gradle.api.excel;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -14,11 +14,11 @@ public class Worksheet {
     }
 
     public int getFirstRowIndex() {
-        return sheet.getFirstRowNum();
+        return sheet.getFirstRowNum() + 1;
     }
 
     public int getLastRowIndex() {
-        return sheet.getLastRowNum();
+        return sheet.getLastRowNum() + 1;
     }
 
     public Cell getCell(String ref) {
@@ -26,16 +26,16 @@ public class Worksheet {
         if (cr.getSheetName() != null) {
             throw new IllegalArgumentException("SheetName cannot set.");
         }
-        return getCell(cr.getRow(), cr.getCol());
+        return getCell(cr.getRow() + 1, cr.getCol() + 1);
     }
 
     public Cell getCell(int row, int col) {
-        Row r = sheet.getRow(row);
+        Row r = sheet.getRow(row - 1);
         if (r == null) {
             return Cell.BLANK;
         }
 
-        org.apache.poi.ss.usermodel.Cell c = r.getCell(col);
+        org.apache.poi.ss.usermodel.Cell c = r.getCell(col - 1);
         if (c == null) {
             return Cell.BLANK;
         }

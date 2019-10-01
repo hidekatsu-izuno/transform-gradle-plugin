@@ -1,4 +1,4 @@
-package net.arnx.transform.gradle;
+package net.arnx.gradle.api.transform;
 
 import org.gradle.api.tasks.Sync;
 
@@ -28,11 +28,20 @@ import org.gradle.util.GFileUtils;
 
 import groovy.lang.Closure;
 
-public class Transform extends Sync {
+public class TransformSync extends Sync {
     private Closure<?> processAction;
+    private boolean delete = true;
 
     public void process(Closure<?> processAction) {
         this.processAction = processAction;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
+    }
+
+    public boolean isDelete() {
+        return delete;
     }
 
     @Override
