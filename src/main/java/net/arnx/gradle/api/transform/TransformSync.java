@@ -1,7 +1,5 @@
 package net.arnx.gradle.api.transform;
 
-import org.gradle.api.tasks.Sync;
-
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,13 +10,14 @@ import org.gradle.api.file.FileTreeElement;
 import org.gradle.api.file.FileVisitDetails;
 import org.gradle.api.file.FileVisitor;
 import org.gradle.api.file.RelativePath;
-import org.gradle.api.internal.file.CopyActionProcessingStreamAction;
-import org.gradle.api.internal.file.FileResolver;
-import org.gradle.api.internal.file.collections.DirectoryFileTreeFactory;
-import org.gradle.api.internal.file.collections.MinimalFileTree;
-import org.gradle.api.internal.file.copy.CopyAction;
-import org.gradle.api.internal.file.copy.CopyActionProcessingStream;
-import org.gradle.api.internal.file.copy.FileCopyDetailsInternal;
+import net.arnx.gradle.repackaged.org.gradle.api.internal.file.CopyActionProcessingStreamAction;
+import net.arnx.gradle.repackaged.org.gradle.api.internal.file.FileResolver;
+import net.arnx.gradle.repackaged.org.gradle.api.internal.file.collections.DirectoryFileTreeFactory;
+import net.arnx.gradle.repackaged.org.gradle.api.internal.file.collections.MinimalFileTree;
+import net.arnx.gradle.repackaged.org.gradle.api.internal.file.copy.CopyAction;
+import net.arnx.gradle.repackaged.org.gradle.api.internal.file.copy.CopyActionProcessingStream;
+import net.arnx.gradle.repackaged.org.gradle.api.internal.file.copy.FileCopyDetailsInternal;
+import net.arnx.gradle.repackaged.org.gradle.api.tasks.Sync;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.WorkResult;
 import org.gradle.api.tasks.WorkResults;
