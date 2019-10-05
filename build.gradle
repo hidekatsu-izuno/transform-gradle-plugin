@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'net.arnx'
-version = '0.1.0'
+version = '0.1.1'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
@@ -73,6 +73,7 @@ javadoc {
 	}
 	options.addBooleanOption('html5', 
 		JavaVersion.current().isJava9Compatible())
+    exclude '**/repackaged/**'
 }
 
 task sourceJar(type : Jar) {
