@@ -6,7 +6,7 @@
 
 ```gradle:
 plugins {
-    id 'net.arnx.transform-sync' version '0.1.0'
+    id 'net.arnx.transform-sync' version '0.1.1'
 }
 
 transformSync {
@@ -19,7 +19,7 @@ transformSync {
         include '**'
     }
 
-    process { details ->
+    processFile { details ->
         println("${details.sourcePath} -> ${details.path}")
 
         def excel = details.toExcel()
