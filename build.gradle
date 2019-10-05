@@ -15,7 +15,10 @@ repositories {
 
 dependencies {
     implementation 'org.apache.poi:poi-ooxml:4.1.0'
-    
+    implementation 'com.google.guava:guava:27.1-jre'
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation 'commons-io:commons-io:2.6'
+
     testImplementation gradleTestKit()
     testImplementation 'junit:junit:4.12'
 }
