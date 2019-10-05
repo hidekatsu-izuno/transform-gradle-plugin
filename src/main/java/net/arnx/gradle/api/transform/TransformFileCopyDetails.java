@@ -16,7 +16,7 @@ import org.gradle.api.file.ContentFilterable;
 import org.gradle.api.file.DuplicatesStrategy;
 import org.gradle.api.file.FileCopyDetails;
 import org.gradle.api.file.RelativePath;
-import net.arnx.gradle.repackaged.org.gradle.api.internal.file.FileResolver;
+import org.gradle.api.internal.file.FileResolver;
 import org.xml.sax.SAXException;
 
 import groovy.lang.Closure;
