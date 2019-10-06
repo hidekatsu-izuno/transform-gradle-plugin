@@ -14,7 +14,7 @@ transformSync {
     into 'data/output'
     rename /(.*)\.xlsx/, '$1.txt'
 
-    // for a copy only
+    // if you only need a copy, not sync
     preserve {
         include '**'
     }
